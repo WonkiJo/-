@@ -1,30 +1,36 @@
 class Solution {
-    fun countAndSay(n: Int): String {
-        var result = StringBuilder("1")
-        if (n == 1) return "1"
-        if (n > 30) return ""
+    fun countAndSay(target: Int): String {
+        var numbers = StringBuilder("1")
+        if (target == 1) return "1"
+        if (target > 30) return ""
         for (i in 2..30) {
-            val list = mutableListOf<Pair<Int, Char>>()
-            for (c in result.toString().toCharArray()) {
-                var pair = list.lastOrNull()
+            val countAndNumberPairs = mutableListOf<Pair<Int, Char>>()
+            for (number in numbers.toString().toCharArray()) {
+                var pair = countAndNumberPairs.lastOrNull()
                 if (pair == null) {
-                    list.add(Pair(1, c))
+                    val count = 1
+                    countAndNumberPairs.add(Pair(count, number))
                 } else {
-                    if (c == pair.second) {
-                        list[list.size - 1] = Pair(pair.first + 1, c)
+                    if (number == pair.second) {
+                        pair.first + 1
                     } else {
-                        list.add(Pair(1, c))
+                        1
+                    }.let { count ->
+                        when(count) {
+                            1 -> countAndNumberPairs.add(Pair(count, number))
+                            else -> countAndNumberPairs[countAndNumberPairs.size - 1] = Pair(count, number)
+                        }
                     }
                 }
             }
 
-            result = StringBuilder()
-            for (pair in list) {
-                result.append(pair.first)
-                result.append(pair.second)
+            numbers = StringBuilder()
+            for (pair in countAndNumberPairs) {
+                numbers.append(pair.first)
+                numbers.append(pair.second)
             }
 
-            if (i == n) return result.toString()
+            if (i == target) return numbers.toString()
         }
         return ""
     }
